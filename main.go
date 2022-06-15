@@ -101,11 +101,32 @@ func main() {
             fmt.Println("Other")
     }
 
-    welcome_user(name)
+    fmt.Println(welcome_user(name))
 
+
+    // create a map/dict
+    var userData = make(map[string]int) 
+    userData["grade_bio"] = 1
+    userData["grade_english"] = 2
+    userData["grade_geo"] = 3
+
+    fmt.Print(userData)
+
+    var list_of_maps = make([]map[string]int, 0) // the number is the initial length
+
+    var baz = fmt.Sprintf("%v ages", 5)
+    fmt.Println(baz)
     
 }
 
-func welcome_user(user string){
-    fmt.Println("Welcome:",  user)
+func welcome_user(user string) string {
+    ret := "Welcome:" + user
+    return ret
+}
+
+type personData struct {
+    firstName string
+    lastName string
+    age int
+    is_allowed bool
 }

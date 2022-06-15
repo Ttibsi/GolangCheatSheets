@@ -114,6 +114,19 @@ func main() {
     // is a type mismatch. Or change the instanciation
 ```
 
+Convert from one format to another using the `strconv` library
+```go
+import (
+    "fmt"
+    "strconv"
+)
+
+func main() {
+    var a string = "1"
+    var b int = strconv.FormatUint(uint64(a), 10) // 10 == base 10 
+}
+```
+
 ### User input and Pointers
 
 ```go
@@ -265,6 +278,101 @@ creating variables.
 
 Accessing them across the functions requires nothing special.
 
+## Working with multiple files
+Go programs are organised into packages. A package is a collection of `.go` files
 
+Each file needs to have the same `package <name>` line at the top of the file
+to access each other. This replaces python's import statements. You will need
+to make sure that each file has all the libraries imported that they need.
 
+However you'll need to make sure that when you do `go run`, you name every file
+that you require.
+    - ex: `go run main.go helper.go util.go`
+    - As an alternative, you an just do `go run .` to just run all files in the 
+    current folder
+
+### Multiple Packages
+You can also organise your various files into multiple packages in the same
+repo. This is mostly used for when you want different 'folders' of code 
+within the same repo. Different packages have different namespaces, so you'll 
+need to import functions from other packages within the `import` statement at 
+the top of the repo
+
+```go
+import (
+    "fmt"
+    "module_name/helper" // module_name is specified in go.mod 
+)
+```
+
+Functions for use in other packages need to be exported. At the function
+definition, you just need to make sure the first letter of the function name is 
+capitalised. You can then call it with `package.Function` 
+
+This all also applies to variables too
+
+### Scope rules
+- local - variable declared within a function/ block of code, and can only be used
+within that scope
+- package level - these are defined outside a function and can be called
+throughout a file
+- global level - these are capitalised and accessible throughout multiple
+packages
+
+## Maps
+These are hash maps, or called dictionaries in python. 
+
+```go
+func main() {
+    var userData = make(map[string]int) 
+    userData["grade_bio"] = 1
+    userData["grade_english"] = 2
+    userData["grade_geo"] = 3
+
+    fmt.Print(userData)
+    var list_of_maps = make([]map[string]int, 0) // the number is the initial length
+}
+```
+
+## Structs
+From what I can tell, this is basically a Class but with only attributes, no 
+methods. These are defined outside of a function, at the top level, with this 
+syntax:
+
+```go
+type personData struct {
+    firstName string
+    lastName string
+    age int
+    is_allowed bool
+}
+```
+You can access the individual values the same way you do elsewhere, doing 
+something like `personData.firstName`
+
+## concurrency
+
+You need to use `sprintf` to save a formatted string to a variable
+` var baz = fmt.Sprintf("%v ages", 5)`
+
+```go
+func main() {
+    -- This blocks the execution of a thread for the specified duration
+    time.Sleep(10 * time.Second)
+}
+```
+
+You can easily make functions concurrent within Go. This is multithreaded
+execution. To make a function call act in it's own thread, add the `go` keyword
+befor you call it. IE something like `go addNums(1,2)`
+
+If we need to make the main code wait for a thread to finish, we can use the
+`waitgroup` library to create some waitgroups for Go to recognise. Before we 
+create a thread with a `go` line, we use `wg.Add(1)` to add the thread to a
+stack. We can also use `wg.Done()` to remove from the stack, and add `wg.Wait()`
+at the very end of the code to tell it that you can't go past that point for 
+the threads
+
+Threads are also called GoRoutines
+GoRoutines use "Channels" to share data between threads.
 
