@@ -1,12 +1,11 @@
 package main
 
-import (
-)
+import ()
 
 func main() {
-    // This is the various basic syntax examples
-    //syntax()
+	// This is the various basic syntax examples
+	//syntax()
 
-    //fizzbuzz()
-    fibonacci()
+	//fizzbuzz()
+	fibonacci()
 }
